@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int m = INT_MIN;  
+    void func(TreeNode *root, int m2, int m3){
+        if(!root)   return;
+        if(m2 != INT_MAX)
+           m = max(m, abs(m2 - root->val));
+
+        if(m3 != INT_MIN) 
+            m = max(m, abs(m3 - root->val));
+
+        m2 = min(m2, root->val);
+        m3 = max(m3, root->val);
+
+        func(root->left, m2, m3);
+        func(root->right, m2, m3);
+    }
+
+    int maxAncestorDiff(TreeNode* root) {
+        func(root, INT_MAX, INT_MIN);
+
+        return m;
+    }
+};
